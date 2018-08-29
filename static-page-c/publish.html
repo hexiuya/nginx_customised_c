@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]--><!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]--><!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]--><!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]--><!--[if (gt IE 9)|!(IE)]><!--> 
+<html lang="en"><!--<![endif]--> 
+	<head>
+		<meta charset="utf-8">
+		<title>Profile</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link href="css/bootstrap-dialog.min.css" rel="stylesheet">
+		<link href="css/site.css" rel="stylesheet">
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	</head>
+	<body>
+		<div class="container">
+			<div id="navigation"></div>
+			<div class="row">
+				
+				<div class="span12">
+					<h1>
+						Publish Production
+					</h1>
+					<form id="edit-profile" class="form-horizontal">
+						<fieldset>
+							<legend>Product</legend>
+							<div class="control-group">
+								<label class="control-label" for="price">price :</label>
+								<div class="controls">
+									<input type="number" class="input-xlarge" id="price" value="" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="quant">quant :</label>
+								<div class="controls">
+									<input type="number" class="input-xlarge" id="quant" value="" size="16"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="min">min :</label>
+								<div class="controls">
+									<input type="number" class="input-xlarge" id="min" value="" size="16"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="max">max :</label>
+								<div class="controls">
+									<input type="number" class="input-xlarge" id="max" value="" size="16"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="side">side :</label>
+								<div class="controls">
+									<select class="form-control" id="side">
+								      <option value="S">sale</option>
+								      <option value="B">buy</option>
+								    </select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="pnsid">pnsid :</label>
+								<div class="controls">
+									<select class="form-control" id="pnsid">
+								      <option value="1">1</option>
+								      <option value="2">2</option>
+								      <option value="3">3</option>
+								      <option value="4">4</option>
+								      <option value="5">5</option>
+								    </select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="pnsgid">pnsgid :</label>
+								<div class="controls">
+									<select class="form-control" id="pnsgid">
+								      <option value="1">1</option>
+								      <option value="2">2</option>
+								      <option value="3">3</option>
+								      <option value="4">4</option>
+								      <option value="5">5</option>
+								      <option value="6">6</option>
+								      <option value="7">7</option>
+								      <option value="8">8</option>
+								    </select>
+								</div>
+							</div>
+							
+							
+							<input type="hidden" id="id" value="" />						
+							<div class="form-actions">
+								<button type="button" class="btn btn-primary" onclick="publish()">Publish</button> 
+								<button type="button" class="btn btn-primary" onclick="publish()">Publish Again</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrap-dialog.min.js"></script>
+		
+		<script src="js/site.js"></script>
+		<script src="js/publish.js"></script>
+		<script src="js/common.js"></script>
+	</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]--><!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]--><!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]--><!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]--><!--[if (gt IE 9)|!(IE)]><!--> 
+<html lang="en"><!--<![endif]--> 
+	<head>
+		<meta charset="utf-8">
+		<title>Profile</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/bootstrap-dialog.min.css" rel="stylesheet">
+		<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link href="css/jquery.dataTables.min.css" rel="stylesheet">
+		
+		<link href="css/site.css" rel="stylesheet">
+		<style type="text/css">
+				.center {
+					 text-align:center 
+				}
+
+				.green {
+					background-color: green
+				}
+
+				.blue {
+					background-color: blue
+				}
+
+				.table-hover>tbody>tr.active:hover>td {
+				        background-color: green;
+				}
+
+				table tbody tr {
+				    height: 100px;
+				}
+		</style>
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	</head>
+	<body>
+		<div class="container">
+			<div id="navigation"></div>
+			<div class="row">
+				<!--<div id="menu_bar"></div>-->
+				<div class="span12">
+					<h1>
+						Market
+					</h1>
+					<table id="example" class="table-hover row-border" style="width:100%">
+				        <thead>
+				            <tr>
+								<th>oid</th>
+				                <th>cid</th>
+				                <th>price</th>
+				                <th>quant</th>
+				                <th>status</th>
+				                <th>timestamp</th>
+				            </tr>
+				        </thead>
+				        <!--
+				        <tfoot>
+				            <tr>
+				                <th>First name</th>
+				                <th>Last name</th>
+				                <th>Position</th>
+				                <th>Office</th>
+				                <th>Start date</th>
+				                <th>Salary</th>
+				                <th>Operate</th>
+				            </tr>
+				        </tfoot>
+				    -->
+				    </table>
+				</div>
+			</div>
+		</div>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		                <h4 class="modal-title" id="myModalLabel">Input Bellow Conditions :</h4>
+		            </div>
+		            <br/>
+		            <form class="form-horizontal" role="form" id="form">
+					  <div class="form-group">
+					    <label for="quant" class="col-sm-2 control-label">quant : </label>
+					    <div class="col-sm-10">
+					      <input type="text" class="form-control" id="quant" name="quant" placeholder="input quant">
+					    </div>
+					  </div>
+					  <br/>
+					  <!--
+					  <div class="form-group">
+					    <label for="payPassword" class="col-sm-2 control-label">pay password : </label>
+					    <div class="col-sm-10">
+					      <input type="password" class="form-control" id="payPassword" name="payPassword" placeholder="input pay password">
+					    </div>
+					  </div>
+					  <br/>
+					  <div class="form-group">
+					    <label for="confirmPayPassword" class="col-sm-2 control-label">confirm pay password : </label>
+					    <div class="col-sm-10">
+					      <input type="password" class="form-control" id="confirmPayPassword" name="confirmPayPassword" placeholder="input confirm pay password">
+					    </div>
+					  </div>
+					-->
+					</form>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+		                <button type="submit" class="btn btn-primary" id="submit">submit</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal-dialog -->
+		</div>
+
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.form.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrap-dialog.min.js"></script>
+		<script src="js/jquery.dataTables.1.10.16.js"></script>
+		<script src="js/dataTablePlugins/input.js"></script>
+		<script src="js/dataTablePlugins/ellipses.js"></script>
+		<script src="js/dataTablePlugins/full_numbers_no_ellipses.js"></script>
+		<script src="js/site.js"></script>
+		
+		<script src="js/common.js"></script>
+		<script src="js/scanOrder.js"></script>
+
+	</body>
+</html>

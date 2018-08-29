@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]--><!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]--><!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]--><!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]--><!--[if (gt IE 9)|!(IE)]><!--> 
+<html lang="en"><!--<![endif]--> 
+	<head>
+		<meta charset="utf-8">
+		<title>Profile</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/bootstrap-dialog.min.css" rel="stylesheet">
+		<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link href="css/jquery.dataTables.min.css" rel="stylesheet">
+		
+		<link href="css/site.css" rel="stylesheet">
+		<style type="text/css">
+				.center {
+					 text-align:center 
+				}
+
+		</style>
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	</head>
+	<body>
+		<div class="container">
+			<div id="navigation"></div>
+			<div class="row">
+				<!--<div id="menu_bar"></div>-->
+				<div class="span12">
+					<h1>
+						Market
+					</h1>
+					<table id="example" class="table-hover row-border" style="width:100%">
+				        <thead>
+				            <tr>
+				                <th>messageid</th>
+				                <th>requestid</th>
+				                <th>clientid</th>
+				                <th>oid</th>
+				                <th>side</th>
+				                <th>pnsid</th>
+				                <th>pnsgid</th>
+				                <th>price</th>
+				                <th>quant</th>
+				                <th>min</th>
+				                <th>max</th>
+				                <th>status</th>
+				                <th>operate</th>
+				            </tr>
+				        </thead>
+				        <!--
+				        <tfoot>
+				            <tr>
+				                <th>First name</th>
+				                <th>Last name</th>
+				                <th>Position</th>
+				                <th>Office</th>
+				                <th>Start date</th>
+				                <th>Salary</th>
+				                <th>Operate</th>
+				            </tr>
+				        </tfoot>
+				    -->
+				    </table>
+				</div>
+			</div>
+		</div>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		                <h4 class="modal-title" id="myModalLabel">Input Bellow Conditions :</h4>
+		            </div>
+		            <br/>
+		            <form class="form-horizontal" role="form" id="form">
+					  <div class="form-group">
+					    <label for="price" class="col-sm-2 control-label">price : </label>
+					    <div class="col-sm-10">
+					      <input type="text" class="form-control" id="price" name="price" placeholder="input price">
+					    </div>
+					  </div>
+					  <br/>
+					  <div class="form-group">
+					    <label for="count" class="col-sm-2 control-label">count : </label>
+					    <div class="col-sm-10">
+					      <input type="text" class="form-control" id="count" name="count" placeholder="input count">
+					    </div>
+					  </div>
+					  <br/>
+					  <div class="form-group">
+					    <label for="payPassword" class="col-sm-2 control-label">pay password : </label>
+					    <div class="col-sm-10">
+					      <input type="password" class="form-control" id="payPassword" name="payPassword" placeholder="input pay password">
+					    </div>
+					  </div>
+					  <br/>
+					  <div class="form-group">
+					    <label for="confirmPayPassword" class="col-sm-2 control-label">confirm pay password : </label>
+					    <div class="col-sm-10">
+					      <input type="password" class="form-control" id="confirmPayPassword" name="confirmPayPassword" placeholder="input confirm pay password">
+					    </div>
+					  </div>
+					</form>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+		                <button type="submit" class="btn btn-primary" id="submit">submit</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal-dialog -->
+		</div>
+
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.form.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrap-dialog.min.js"></script>
+		<script src="js/jquery.dataTables.1.10.16.js"></script>
+		<script src="js/dataTablePlugins/input.js"></script>
+		<script src="js/dataTablePlugins/ellipses.js"></script>
+		<script src="js/site.js"></script>
+		
+		<script src="js/common.js"></script>
+		<script type="text/javascript">
+
+			$(document).ready(function() {
+			    var table = $('#example').DataTable( {
+			    	"bPaginate": true, //分页
+			        "processing": true,
+			        "serverSide": true,
+			        "bFilter": false, //过滤
+			        "bLengthChange": false, //选择分页数
+			        "iDisplayLength" : 20,// 每页显示行数   
+			        "bSort": false, //排序
+			        "bInfo": true,//展示页脚信息
+			        //"ordering": false,
+			        "ajax": {
+			            "url": "jsonTest/publisher.json",
+			            "type": "get"
+			        },
+			        "columns": [
+			            { "data":"messageid" , "class": "center" },
+			            { "data": "requestid" , "class": "center" },
+			            { "data": "clientid" , "class": "center" },
+			            { "data": "oid" , "class": "center" },
+			            { "data": "side" , "class": "center" },
+			            { "data": "pnsid" , "class": "center" },
+			            { "data": "pnsgid" , "class": "center" },
+			            { "data": "price" , "class": "center" },
+			            { "data": "quant" , "class": "center" },
+			            { "data": "min" , "class": "center" },
+			            { "data": "max" , "class": "center" },
+			            { "data": "status" , "class": "center" },
+			            { "data": "operate" , "class": "center" }
+			        ],
+			        "columnDefs": [{
+							"render": function(data, type, row) {
+				                return data + ' (' + 'first name' + ')';
+				            },
+				            "targets": 0
+				        },{
+				        	"visible": false,
+				        	"targets": 1
+				        },
+				        {
+				        	"render": function(data, type, row) {
+				                return  '<a href="#" onclick="buy(this)" style="cursor:pointer">Sale</a>' ;
+				            },
+				            "targets": 12
+				        }
+			        ],
+			        language: {
+				        "sProcessing": "处理中...",
+				        "sLengthMenu": "显示 _MENU_ 项结果",
+				        "sZeroRecords": "没有匹配结果",
+				        "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+				        "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+				        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+				        "sInfoPostFix": "",
+				        "sSearch": "搜索:",
+				        "sUrl": "",
+				        "sEmptyTable": "表中数据为空",
+				        "sLoadingRecords": "载入中...",
+				        "sInfoThousands": ",",
+				        "oPaginate": {
+				            "sFirst": "首页",
+				            "sPrevious": "上页",
+				            "sNext": "下页",
+				            "sLast": "末页"
+				        },
+				        "oAria": {
+				            "sSortAscending": ": 以升序排列此列",
+				            "sSortDescending": ": 以降序排列此列"
+				        }
+				    },
+
+				    "pagingType": "input"
+			    } );
+
+				//var table = $('#example').DataTable(); 
+
+				/*$('#example tbody').on('click', 'tr', function () { 
+					
+					var data = table.row(this).data(); //获取本行的数据
+
+				} ); */
+
+
+			} );
+
+            function buy(object){
+					
+					console.log(object);
+					var td = $(object).parent();
+					console.log(td);
+					var tr = td.parent();
+					console.log(tr);
+					var table = $('#example').DataTable();
+					var data = table.row(tr).data(); //获取本行的数据
+					console.log(data);
+					
+					$('#myModal').modal({
+				        keyboard: true
+				    })
+
+				   var messageid = $("<input type='hidden' name='messageid' value=" + data.messageid +"></input>");
+				    var form = $("#form");
+				    form.append(messageid);
+	        }
+			
+			function submit(){
+
+			}
+
+			$("#submit").on("click",function(){
+
+
+		       $('#form').ajaxSubmit(      //ajax方式提交表单  
+		            {  
+		                url: '/personal/kaike',  
+		                type: 'post',  
+		                dataType: 'json',  
+		                beforeSubmit: function () {},  
+		                success: function (data) {  
+		                    alert(data);
+		                },  
+		                clearForm: false,//禁止清楚表单  
+		                resetForm: false //禁止重置表单  
+		            });  
+			}); 
+
+			 $("#submit2").on("click",function(){
+
+
+		       var data=$('#form').serialize();
+				//序列化获得表单数据，结果为：user_id=12&user_name=John&user_age=20
+
+				
+				var submitData=decodeURIComponent(data,true);
+				//submitData是解码后的表单数据，结果同上
+				alert(submitData);
+				$.ajax({
+				    url:'adfs',
+				    data:submitData,
+				    cache:false,//false是不缓存，true为缓存
+				    async:true,//true为异步，false为同步
+				    beforeSend:function(){
+				        //请求前
+				    },
+				    success:function(result){
+				        //请求成功时
+				    },
+				    complete:function(){
+				        //请求结束时
+				    },
+				    error:function(){
+				        //请求失败时
+				    }
+				})
+			}); 
+		</script>
+	</body>
+</html>

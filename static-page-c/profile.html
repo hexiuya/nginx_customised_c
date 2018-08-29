@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]--><!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]--><!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]--><!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]--><!--[if (gt IE 9)|!(IE)]><!--> 
+<html lang="en"><!--<![endif]--> 
+	<head>
+		<meta charset="utf-8">
+		<title>Profile</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/bootstrap-dialog.min.css" rel="stylesheet">
+		<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+		
+		<link href="css/site.css" rel="stylesheet">
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	</head>
+	<body>
+		<div class="container">
+			<div id="navigation"></div>
+			<div class="row">
+				<div id="menu_bar"></div>
+				<div class="span9">
+					<h1>
+						Edit Your Profile
+					</h1>
+					<form id="edit-profile" class="form-horizontal">
+						<fieldset>
+							<legend>Your Profile</legend>
+							<div class="control-group">
+								<label class="control-label" for="input01">mobile :</label>
+								<div class="controls">
+									<input type="text" class="input-xlarge" id="mobile" value="" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="input01">identification :</label>
+								<div class="controls">
+									<input type="text" class="input-xlarge" id="identification" value="" />
+								</div>
+							</div>
+													
+							<div class="form-actions">
+								<button type="button" class="btn btn-primary" onclick="modifyPersonalInformation()">Save</button> <button type="button" class="btn btn-default" onclick="scanPersonalInformation()">Cancel</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrap-dialog.min.js"></script>
+		<script src="js/site.js"></script>
+		<script src="js/profile.js"></script>
+		<script src="js/common.js"></script>
+	</body>
+</html>

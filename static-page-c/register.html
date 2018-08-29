@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]--><!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]--><!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]--><!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]--><!--[if (gt IE 9)|!(IE)]><!--> 
+<html lang="en"><!--<![endif]--> 
+	<head>
+		<meta charset="utf-8">
+		<title>Login</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/bootstrap-dialog.min.css" rel="stylesheet">
+		<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link href="css/site.css" rel="stylesheet">
+		<style type="text/css">
+			.alert_msg_error {
+				color:red;
+			}
+
+			.alert_msg {
+				color:green;
+			}
+		</style>
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	</head>
+	<body>
+		<div id="register-page" class="container" style="width:400px;">
+			<h1>register</h1>
+			<form id="register-form" class="well" style="width:auto" action="">
+				<label for="username">username</label>
+				<input type="text" class="span2" placeholder="username" id="username"/>
+
+				<br />
+				<label for="password">password</label>
+				<input type="password" class="span2" placeholder="password" id="password"/><br />
+				<label for="confirmPassword">confirmPassword</label>
+				<input type="password" class="span2" placeholder="confirmPassword" id="confirmPassword"/><br>
+				<label for="mobile">mobile</label>
+				<input type="text" class="span2" placeholder="mobile" id="mobile"/><br />
+				<label for="identification">identification</label>
+				<input type="text" class="span2" placeholder="identification" id="identification"/><br />
+				<label for="email">email</label>
+				<input type="text" class="span2" placeholder="email" id="email"/>
+				<label id="email_alert_msg"></label><br />
+
+				<button type="button" class="btn btn-primary" onclick="register()">Register</button>
+				
+				
+			</form>	
+
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrap-dialog.min.js"></script>
+		<script src="js/site.js"></script>
+		<script src="js/register.js"></script>
+		<script src="js/common.js"></script>
+	</body>
+</html>
