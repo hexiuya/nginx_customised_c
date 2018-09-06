@@ -82,6 +82,18 @@
 					      <input type="text" class="form-control" id="quantity" name="quantity" placeholder="input quantity">
 					    </div>
 					  </div>
+					  <div class="form-group">
+					    <label for="amoumt" class="col-sm-2 control-label">amoumt : </label>
+					    <div class="col-sm-10">
+					      <input type="text" class="form-control" id="amoumt" name="amoumt" placeholder="input amoumt">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="receiveAddress" class="col-sm-2 control-label">receiveAddress : </label>
+					    <div class="col-sm-10">
+					      <input type="text" class="form-control" id="receiveAddress" name="receiveAddress" placeholder="input receiveAddress">
+					    </div>
+					  </div>
 					</form>
 		            <div class="modal-footer">
 		                <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
@@ -91,6 +103,29 @@
 		    </div><!-- /.modal-dialog -->
 		</div>
 
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="depositModal" tabindex="-1" role="dialog" aria-labelledby="depositLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		                <h4 class="modal-title" id="depositLabel">Scan QR code or copy address :</h4>
+		            </div>
+		            <br/>
+		            <form class="form-horizontal" role="form" id="form">
+					  <div class="form-group">
+					    
+					  </div>
+					</form>
+					<div id="address"></div>
+					<div id="qrcode" style="width:100px; height:100px; margin-top:15px;text-align: center;vertical-align: middle;display: table-cell;"></div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal-dialog -->
+		</div>
 
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="walletModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -148,6 +183,7 @@
 		<script src="js/dataTablePlugins/ellipses.js"></script>
 		<script src="js/dataTablePlugins/full_numbers_no_ellipses.js"></script>
 		<script src="js/site.js"></script>
+		<script src="js/qrcode.min.js"></script>
 		
 		<script src="js/common.js"></script>
 		<script src="js/myWallet.js"></script>

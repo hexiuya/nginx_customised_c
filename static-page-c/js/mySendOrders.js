@@ -293,7 +293,7 @@ var faceName ;
 
 	        	//var orderStatus = $("<div>this is order status</div>");
 				
-	        	var iframe = $("<iframe width='280' height='380' src='http://localhost:8883/autoLogin.html?loginname=" + username +"&faceName=" + faceName +"'></iframe>");
+	        	var iframe = $("<iframe width='280' height='380' src='" + chatDNS + "/autoLogin.html?loginname=" + username +"&faceName=" + faceName +"'></iframe>");
 	        	/*
 	        	var chatDialog = $( "#dialog-confirm" );
 	        	chatDialog.empty();

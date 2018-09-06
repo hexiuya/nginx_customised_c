@@ -1,3 +1,5 @@
+var chatDNS = "http://localhost:8883";
+
 $(function(){
 				$("#navigation").load('./commonPage/navigation.html');
 				$("#menu_bar").load('./commonPage/menu_bar.html',function(){

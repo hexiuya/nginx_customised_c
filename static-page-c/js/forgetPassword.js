@@ -12,7 +12,7 @@ function getRandom(){
 
 function changeImage(){
 	rnd = getRandom();
-	var src = urlPrefix() + "crm-test/onlineManage/verifyCode?rnd=" + rnd;  
+	var src = urlPrefix() + "cVerifyCode?rnd=" + rnd;  
 	$("#img_code").attr("src",src);
 }
 

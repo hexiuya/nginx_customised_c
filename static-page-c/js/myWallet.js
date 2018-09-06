@@ -15,14 +15,14 @@ function resetTable(){
 
 function createData(){
 	var table = $('#example').DataTable( {
-			    	"bPaginate": true, //??é¡µ
+			    	"bPaginate": true, //??Ò³
 			        "processing": true,
 			        "serverSide": true,
 			        "bFilter": false, //????
-			        "bLengthChange": false, //é€‰????é¡µ??
-			        "iDisplayLength" : 10,// æ¯é¡µ??ç¤º????   
+			        "bLengthChange": false, //Ñ¡????Ò³??
+			        "iDisplayLength" : 10,// Ã¿Ò³??Ê¾????   
 			        "bSort": false, //????
-			        "bInfo": true,//å±•ç¤ºé¡µ????æ¯
+			        "bInfo": true,//Õ¹Ê¾Ò³????Ï¢
 			        //"ordering": false,
 			        
 			        "ajax": {
@@ -73,26 +73,26 @@ function createData(){
 			        /*
 			        language: {
 				        "sProcessing": "??????...",
-				        "sLengthMenu": "??ç¤º _MENU_ ??????",
-				        "sZeroRecords": "æ²¡??åŒ¹??????",
-				        "sInfo": "??ç¤º?? _START_ ?? _END_ ?????????? _TOTAL_ ??",
-				        "sInfoEmpty": "??ç¤º?? 0 ?? 0 ?????????? 0 ??",
+				        "sLengthMenu": "??Ê¾ _MENU_ ??????",
+				        "sZeroRecords": "Ã»??Æ¥??????",
+				        "sInfo": "??Ê¾?? _START_ ?? _END_ ?????????? _TOTAL_ ??",
+				        "sInfoEmpty": "??Ê¾?? 0 ?? 0 ?????????? 0 ??",
 				        "sInfoFiltered": "(?? _MAX_ ??????????)",
 				        "sInfoPostFix": "",
 				        "sSearch": "????:",
 				        "sUrl": "",
-				        "sEmptyTable": "????????ä¸º??",
+				        "sEmptyTable": "????????Îª??",
 				        "sLoadingRecords": "??????...",
 				        "sInfoThousands": ",",
 				        "oPaginate": {
-				            "sFirst": "??é¡µ",
-				            "sPrevious": "??é¡µ",
-				            "sNext": "??é¡µ",
-				            "sLast": "æœ«é¡µ"
+				            "sFirst": "??Ò³",
+				            "sPrevious": "??Ò³",
+				            "sNext": "??Ò³",
+				            "sLast": "Ä©Ò³"
 				        },
 				        "oAria": {
-				            "sSortAscending": ": ?????????å†™???",
-				            "sSortDescending": ": ?è¶Š??????å†™???"
+				            "sSortAscending": ": ?????????Ğ´???",
+				            "sSortDescending": ": ?Ô½??????Ğ´???"
 				        }
 				    }, */
 
@@ -102,7 +102,7 @@ function createData(){
 
 				/*$('#example tbody').on('click', 'tr', function () { 
 					
-					var data = table.row(this).data(); //??å–???æ¢°?????
+					var data = table.row(this).data(); //??È¡???Ğµ?????
 
 				} ); */
 
@@ -118,8 +118,64 @@ var apiWithdrawMsgId = "0x0019";
 function deposit(object){
 	apiMethod = apiDeposit;
 	apiMessageId = apiDepositMsgId;
-	openDailog(object);
+	// openDailog(object);
+	console.log(object);
+	var td = $(object).parent();
+	console.log(td);
+	var tr = td.parent();
+	console.log(tr);
+	var table = $('#example').DataTable();
+	var data = table.row(tr).data();
+	var pnsid = data.pnsid;
+	var pnsgid = data.pnsgid;
 
+	var clientid = getCustomerId();
+
+
+	var params = {
+		messageid:"0x0033",
+	    requestid:generateUUID(),
+		pnsid:pnsid,
+		pnsgid:pnsgid,
+		clientid:clientid
+	};
+
+	$.ajax({
+		url:urlPrefix() + "cGetReceiveAddress",
+		data:JSON.stringify( params ),
+		type: 'POST',
+		contentType : 'application/json',
+		success:function(data){
+			console.log(data);
+
+			if (data.status == "SUCCESS"){
+
+				$("#qrcode").empty();
+				// $("#receiveAddress").empty();
+
+				$('#depositModal').modal({
+					backdrop: 'static',//µã»÷ÕÚÕÖ²ã²»¹Ø±ÕÄ£Ì¬¿ò
+					keyboard: true//°´esc¼ü£¬ÍË³öÄ£Ì¬¿ò
+				})
+
+
+				var qrcode = new QRCode(document.getElementById("qrcode"), {
+					width : 100,
+					height : 100
+				});
+
+				console.log("===================================");
+				var receiveAddress = data.receiveAddress;
+				document.getElementById("address").innerHTML = receiveAddress;
+				// $("#receiveAddress").val(receiveAddress);
+				qrcode.makeCode(receiveAddress);
+
+
+			}
+			
+
+        }
+	});
 }
 
 function withdraw(object){
@@ -135,7 +191,7 @@ function openDailog(object){
 	var tr = td.parent();
 	console.log(tr);
 	var table = $('#example').DataTable();
-		var data = table.row(tr).data(); //??å–???æ¢°?????
+		var data = table.row(tr).data(); //??È¡???Ğµ?????
 		console.log(data);
 
 		var pnsid = $("<input type='hidden' name='pnsid' value=" + data.pnsid +"></input>");
@@ -147,8 +203,8 @@ function openDailog(object){
 		form.append(pnsid,pnsgid);
 
 		$('#myModal').modal({
-			backdrop: 'static',//ç‚¹å‡»é®ç½©å±‚ä¸å…³é—­æ¨¡æ€æ¡†
-			keyboard: true//æŒ‰escé”®ï¼Œé€€å‡ºæ¨¡æ€æ¡†
+			backdrop: 'static',//µã»÷ÕÚÕÖ²ã²»¹Ø±ÕÄ£Ì¬¿ò
+			keyboard: true//°´esc¼ü£¬ÍË³öÄ£Ì¬¿ò
 		})
 	}
 
@@ -161,6 +217,10 @@ function openDailog(object){
 
 		var quantity = $("input[name='quantity']").val();
 
+		var amoumt = $("input[name='amoumt']").val();
+
+		var receiveAddress = $("input[name='receiveAddress']").val();
+
 		var clientid = getCustomerId();
 
 		var username = getUserName();
@@ -171,7 +231,9 @@ function openDailog(object){
 			pnsid:pnsid,
 			pnsgid:pnsgid,
 			quantity:quantity,
-			clientid:clientid
+			clientid:clientid,
+			amoumt:amoumt,
+			receiveAddress:receiveAddress
 		};
 
 		$.ajax({
@@ -193,7 +255,7 @@ function openDailog(object){
 					buttons: [{
 						label: 'Close the dialog',
 						action: function(dialogRef){
-							dialogRef.close();   //æ€»æ˜¯èƒ½å…³é—­å¼¹å‡ºæ¡†
+							dialogRef.close();   //×ÜÊÇÄÜ¹Ø±Õµ¯³ö¿ò
 							if("SUCCESS" == data.status){
 								closeModal();
 
@@ -205,20 +267,20 @@ function openDailog(object){
 				});
 			},
 			error : function(xhr,textStatus,errorThrown){
-				ã€€ã€€if (xhr.status == 401) {
+				if (xhr.status == 401) {
 						BootstrapDialog.show({  
 							closable: true, 
 							message: "please login",
 							buttons: [{
 								label: 'Close the dialog',
 								action: function(dialogRef){
-									dialogRef.close();   //æ€»æ˜¯èƒ½å…³é—­å¼¹å‡ºæ¡†
+									dialogRef.close();   //×ÜÊÇÄÜ¹Ø±Õµ¯³ö¿ò
 									window.location.href = "login.html";
 								}
 							}]
 					});
 			} else{
-					// è°ƒç”¨å¤–éƒ¨çš„error
+					// µ÷ÓÃÍâ²¿µÄerror
 					error && error(xhr,textStatus,errorThrown);
 			}
 		}
@@ -227,8 +289,8 @@ function openDailog(object){
 });
 
 function closeModal(){
-	$('#myModal').modal('hide');//????æ¨¡æ€??
-	//???æ¯¡???
+	$('#myModal').modal('hide');//????Ä£Ì¬??
+	//???Õ±???
 	$("#myModal :input").not(":button, :submit, :reset, :hidden, :checkbox, :radio").val(""); 
 	$("#myModal :input").removeAttr("checked").remove("selected");  
 }
@@ -237,8 +299,8 @@ function closeModal(){
 
 function createNewWallet(){
 	$('#walletModal').modal({
-		backdrop: 'static',//ç‚¹å‡»é®ç½©å±‚ä¸å…³é—­æ¨¡æ€æ¡†
-		keyboard: true//æŒ‰escé”®ï¼Œé€€å‡ºæ¨¡æ€æ¡†
+		backdrop: 'static',//µã»÷ÕÚÕÖ²ã²»¹Ø±ÕÄ£Ì¬¿ò
+		keyboard: true//°´esc¼ü£¬ÍË³öÄ£Ì¬¿ò
 	})
 }
 
@@ -279,7 +341,7 @@ $("#submitNewWallet").on("click",function(){
 				buttons: [{
 					label: 'Close the dialog',
 					action: function(dialogRef){
-						dialogRef.close();   //æ€»æ˜¯èƒ½å…³é—­å¼¹å‡ºæ¡†
+						dialogRef.close();   //×ÜÊÇÄÜ¹Ø±Õµ¯³ö¿ò
 						if("SUCCESS" == data.status){
 							
 							closeWalletModal();
@@ -298,13 +360,13 @@ $("#submitNewWallet").on("click",function(){
 					buttons: [{
 						label: 'Close the dialog',
 						action: function(dialogRef){
-							dialogRef.close();   //æ€»æ˜¯èƒ½å…³é—­å¼¹å‡ºæ¡†
+							dialogRef.close();   //×ÜÊÇÄÜ¹Ø±Õµ¯³ö¿ò
 							window.location.href = "login.html";
 						}
 					}]
 				});
 			} else{
-			    // è°ƒç”¨å¤–éƒ¨çš„error
+			    // µ÷ÓÃÍâ²¿µÄerror
 			    error && error(xhr,textStatus,errorThrown);
 			}
 		}
@@ -314,8 +376,8 @@ $("#submitNewWallet").on("click",function(){
 });
 
 function closeWalletModal(){
-	$('#walletModal').modal('hide');//????æ¨¡æ€??
-	//???æ¯¡???
+	$('#walletModal').modal('hide');//????Ä£Ì¬??
+	//???Õ±???
 	$("#walletModal :input").not(":button, :submit, :reset, :hidden, :checkbox, :radio").val(""); 
 	$("#walletModal :input").removeAttr("checked").remove("selected");  
 }
