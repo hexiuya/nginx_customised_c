@@ -11,5 +11,6 @@ docker run -d -p 80:80 --name nginx_customised_c --network crm-network --network
 #Jmeter test starts#
 ####################
 cd /home/xiuya/Apps/apache-jmeter-4.0/bin
-./jmeter.sh -Jjmeter.save.saveservice.output_format=xml -n -t plans/crm-test2.jmx -l plans/crm-test2-testResult.jtl
+chmod 777 plans/crm-test2-testResult.jtl
+/home/xiuya/Apps/apache-jmeter-4.0/bin/jmeter.sh -Jjmeter.save.saveservice.output_format=xml -n -t plans/crm-test2.jmx -l plans/crm-test2-testResult.jtl
 
