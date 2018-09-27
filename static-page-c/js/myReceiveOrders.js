@@ -232,7 +232,7 @@ var faceName ;
 	        }
 
 	        function chat(orderStatus){
-				var username = getParam("username");
+				var username = getUserName();
 
 	        	//var orderStatus = $("<div>this is order status</div>");
 				

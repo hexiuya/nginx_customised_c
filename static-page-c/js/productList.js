@@ -165,7 +165,7 @@ var faceName ;
 	        }
 
 	        function chat(orderStatus){
-				var username = getParam("username");
+				var username = getUserName();
 
 	        	//var orderStatus = $("<div>this is order status</div>");
 				
@@ -198,6 +198,17 @@ var faceName ;
 	        }
 
 	        function chatMultipleOrder(object){
+	        	console.log(object);
+				var td = $(object).parent();
+				console.log(td);
+				var tr = td.parent();
+				console.log(tr);
+				var table = $('#example').DataTable();
+				var data = table.row(tr).data(); //??ȡ???е?????
+				console.log(data);
+
+				faceName = data.poname;
+				
 	        	var orderStatus = $("<div id='orderStatus'></div>");
 	        	chat(orderStatus);
 	        	searchMultipleOrder(object);
