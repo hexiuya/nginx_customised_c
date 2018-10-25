@@ -1,3 +1,4 @@
+
 $(function(){
 	        $( "#dialog-form" ).dialog({
             	autoOpen: false,
@@ -35,7 +36,8 @@ function createData(){
 			            "url": urlSubscriberPrefix() + "market",
 			            "contentType" : 'application/json',
 			            "data": function ( d ) {
-			            	  
+			            	  d.requestid = generateUUID();;
+			            	  d.messageid = "0x6021";
 			            	  d.side = "B";
 			            	  d.pnsid = pnsid;
 			            	  d.pnsgid = pnsgid;
@@ -57,18 +59,36 @@ function createData(){
 			        "columns": [
 			            { "data": "pnsoid" , "class": "center" },
 			            { "data": "poid" , "class": "center" },
-			            { "data": "poname" , "class": "center" },
+			            { "data": "poname" , "class": "center" , "render": function(data, type, row) {
+				                //return  '<a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip">'+row.poname+'</a>';
+				                return row.poname;
+				            }
+				        },
 			            { "data": "price" , "class": "center" },
-			            { "data": "quant" , "class": "center" },
-			            { "data": "net" , "class": "center" },
+			            { "data": "quant" , "class": "center" , "render": function(data, type, row) {
+				                return  row.quant + "(" + getBTCUnit(row.quant) + ")";
+				            }
+				        },
+			            { "data": "net" , "class": "center" , "render": function(data, type, row) {
+			            		return  row.net + "(" + getBTCUnit(row.net) + ")";
+				            }
+				        },
 			            { "data": "min" , "class": "center" },
 			            { "data": "max" , "class": "center" },
 			            { "data": "operate" , "class": "center" , "render": function(data, type, row) {
-				                return  '<a href="javascript:void(0);" onclick="sale(this)" style="cursor:pointer">sale</a>' ;
+				                return  '<a href="javascript:void(0);" onclick="sale(this)" style="cursor:pointer">Sell</a>' ;
 				            }
 				        },
-				        { "data": "chat" , "class": "center" , "render": function(data, type, row) {
+				        { "data": "chat" , "class": "center" , "bVisible":false , "render": function(data, type, row) {
+				        		//可以不要这一列
 				                return  '<a href="javascript:void(0);" onclick="chatMultipleOrder(this)" style="cursor:pointer">chat</a>' ;
+				            }
+				        },
+				        { "data": "pay-type" , "class": "center" ,sWidth:"120", "render": function(data, type, row) {
+			            	    //return "<a background-image=url('./img/wechat.png') width='30' height='30'  />";
+			            	    return "<img src='./img/wechat.png' width='25' height='25'/>&nbsp;" +
+			            	    "<img src='./img/alipay.jpg' width='25' height='25' />&nbsp;" + 
+			            	    "<img src='./img/bankcard.png' width='40' height='30' />";
 				            }
 				        }
 			        ],
@@ -192,6 +212,7 @@ var faceName ;
 			      buttons: {
 			        "close": function() {
 			          $( this ).dialog( "close" );
+			          resetTable();
 			        }
 			      }
 			    });
@@ -241,27 +262,31 @@ var faceName ;
 	        }
 
 	        function searchOneOrder(params){
+	        	params.requestid = generateUUID();
+	        	params.messageid = "6031";
+	        	params.clientid = getCustomerId();
+
 	        	$.ajax({
-					url:urlSubscriberPrefix() + "ownord",
+					url:urlSubscriberPrefix() + "ownsingleorder",
 					contentType : 'application/json',
 					data:JSON.stringify(params),
 					type: 'POST',
 					success:function(data){
 						console.log(data);
 
-						var status = data.ord.status;
-						var side = data.side;
+						var status = data.ordrow.status;
+						var side = data.ordrow.side;
 						if("DEALING" == status && side == "B"){//订单为"未支付"
                             
                             var strData = JSON.stringify(data);
-							var time = new Date(data.ord.timestamp).format("yyyy-MM-dd hh:mm:ss");
-							var orderStatus = "<div id='" + data.ord.oid + "'>"
+							var time = new Date(data.ordrow.timestamp).format("yyyy-MM-dd hh:mm:ss");
+							var orderStatus = "<div id='" + data.ordrow.oid + "'>"
 							orderStatus += "<div>this order need to be confirmed , please click confirm button :</div>";
-                            orderStatus += "<div>order id:" + data.ord.oid + "</div>"
+                            orderStatus += "<div>order id:" + data.ordrow.oid + "</div>"
                             orderStatus += "<div>time:" + time + "</div>"
-                            orderStatus += "<div>price:" + data.ord.price +"</div>";
-                            orderStatus += "<div>quant:" + data.ord.quant +"</div>";
-                            orderStatus += "<div>status:" + data.ord.status +"</div>";
+                            orderStatus += "<div>price:" + data.ordrow.price +"</div>";
+                            orderStatus += "<div>quant:" + data.ordrow.quant +"</div>";
+                            orderStatus += "<div>status:" + data.ordrow.status +"</div>";
 							orderStatus += "<input type='button' value='pay' onclick='payConfirm(" + strData + ")'/>";
 							orderStatus += "</div>";
 							chat(orderStatus);//打开聊天框							
@@ -270,14 +295,14 @@ var faceName ;
 						if("DEALING" == status && side == "S"){//订单需要发布买产品的人支付
                             
                             var strData = JSON.stringify(data);
-							var time = new Date(data.ord.timestamp).format("yyyy-MM-dd hh:mm:ss");
-							var orderStatus = "<div id='" + data.ord.oid + "'>"
+							var time = new Date(data.ordrow.timestamp).format("yyyy-MM-dd hh:mm:ss");
+							var orderStatus = "<div id='" + data.ordrow.oid + "'>"
 							orderStatus += "<div>this order need to be paid , please wait buyer to pay :</div>";
-                            orderStatus += "<div>order id:" + data.ord.oid + "</div>"
+                            orderStatus += "<div>order id:" + data.ordrow.oid + "</div>"
                             orderStatus += "<div>time:" + time + "</div>"
-                            orderStatus += "<div>price:" + data.ord.price +"</div>";
-                            orderStatus += "<div>quant:" + data.ord.quant +"</div>";
-                            orderStatus += "<div>status:" + data.ord.status +"</div>";
+                            orderStatus += "<div>price:" + data.ordrow.price +"</div>";
+                            orderStatus += "<div>quant:" + data.ordrow.quant +"</div>";
+                            orderStatus += "<div>status:" + data.ordrow.status +"</div>";
 							orderStatus += "</div>";
 							chat(orderStatus);//打开聊天框							
 						}

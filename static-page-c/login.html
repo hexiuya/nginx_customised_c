@@ -16,7 +16,7 @@
 			<h1>Login</h1>
 			<form id="login-form" class="well" action="">
 				<input type="text" class="span2" placeholder="Username" id="username"/><br />
-				<input type="password" class="span2" placeholder="Password" id="password"/><br />
+				<input type="password" class="span2" placeholder="Password" id="password" onkeydown="enterSumbit()"/><br />
 				<button type="button" class="btn btn-primary" onclick="login()">Sign in
 				</button>
 				<img src="./img/loading.gif" hidden="hidden" id="loading_image"/>    

@@ -759,8 +759,19 @@
             success: function (b) {
                 var c = b.error || b.sError;
                 c && J(a, 0, c);
-                if(b.data == null){
+
+                //针对本项目做定向改造
+                //如果响应为NULL,则b.data = [],保证页面不会出错
+                if (b.data == null){
                     b.data = [];
+                }
+                //响应body里，如果有公共的部分就提取到每个row
+                //将cid放入到每个row里
+                if (b.cid != null && b.data.length > 0){
+                    for (var index=0;index<=b.data.length-1;index++){
+                        var row = b.data[index];
+                        row.cid = b.cid;
+                    }
                 }
 
                 a.json = b;

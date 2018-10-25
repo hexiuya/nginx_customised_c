@@ -49,13 +49,25 @@ function createData(){
 			        },
                     */
 			        "columns": [
-			            { "data": "pnsgid" , "class": "center" },
-			            { "data": "pnsid" , "class": "center" },
-			            { "data": "margin" , "class": "center" },
-			            { "data": "freemargin" , "class": "center" },
+			            { "data": "pnsgid" , "class": "center",'bVisible':false },
+			            { "data": "pnsid" , "class": "center",'bVisible':false },
+			            { "data": "currency-type" , "class": "center" , "render": function(data, type, row) {
+				                return getCurrencyType(row);
+
+				            }
+				        },
+			            { "data": "margin" , "class": "center" , "render": function(data, type, row) {
+				                return  row.margin + "(" + getBTCUnit(row.margin) + ")";
+				            }
+				        },
+			            { "data": "freemargin" , "class": "center" , "render": function(data, type, row) {
+				                return  row.freemargin + "(" + getBTCUnit(row.freemargin) + ")";
+				            }
+				        },
 			            { "data": "equity" , "class": "center" , "render": function(data, type, row) {
 				                var equity = row.margin + row.freemargin;
-				                return equity;
+				                return  equity + "(" + getBTCUnit(equity) + ")";
+				                
 
 				            }
 				        },
@@ -113,8 +125,8 @@ var apiMethod ;
 var apiMessageId = "";
 var apiDeposit = "cDeposit";
 var apiDepositMsgId = "0x0017";
-var apiWithdraw = "cWithdraw";
-var apiWithdrawMsgId = "0x0019";
+var apiWithdraw = "cWithdrawReq";
+var apiWithdrawMsgId = "4005";
 function deposit(object){
 	apiMethod = apiDeposit;
 	apiMessageId = apiDepositMsgId;
@@ -225,15 +237,19 @@ function openDailog(object){
 
 		var username = getUserName();
 
+		var fees = $("input[name='fees']").val();
+
 		var params = {
 			messageid:apiMessageId,
 	    	requestid:generateUUID(),
+	    	clientid:clientid,
+	    	oid:generateUUID(),
 			pnsid:pnsid,
 			pnsgid:pnsgid,
-			quantity:quantity,
-			clientid:clientid,
-			amoumt:amoumt,
-			receiveAddress:receiveAddress
+			toaddress:receiveAddress,
+			quant:quantity,
+			fees:fees,
+			toquant:quantity-fees,
 		};
 
 		$.ajax({
@@ -306,9 +322,16 @@ function createNewWallet(){
 
 $("#submitNewWallet").on("click",function(){
 
-	var pnsid = $("#wallet_pnsid").val();
+	
+	var digitalCurrencyType = $("#digitalCurrencyType").val();
 
-	var pnsgid = $("#wallet_pnsgid").val();		
+	var arr = digitalCurrencyType.split(",");
+
+
+
+	var pnsid = arr[0];
+
+	var pnsgid = arr[1];	
 
 	var clientid = getCustomerId();
 

@@ -1,3 +1,2 @@
-FROM nginx
+FROM nginx_customised
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY static-page-c /usr/share/nginx/html

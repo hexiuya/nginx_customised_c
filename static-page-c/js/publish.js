@@ -1,4 +1,21 @@
+function estimate(){
+	
+}
+
+function reset(){
+	location.reload();
+}
+
 function publish(){
+
+	var digitalCurrencyType = $("#digitalCurrencyType").val();
+
+	var arr = digitalCurrencyType.split(",");
+    
+    var pnsid = arr[0];
+
+	var pnsgid = arr[1];	
+
 
 	var price = $("#price").val();
 
@@ -12,27 +29,40 @@ function publish(){
 
 	var side = $("#side").val();
 
-	var pnsid = $("#pnsid").val();
+	//var pnsid = $("#pnsid").val();
 
-	var pnsgid = $("#pnsgid").val();
+	//var pnsgid = $("#pnsgid").val();
 	
+	if (!(price>0 && quant>0 && min>0 && max>0 && side && digitalCurrencyType)){
+		BootstrapDialog.show({
+			closable: true,
+			message: "please complete form",
+			buttons: [{
+				label: 'Close the dialog',
+				action: function(dialogRef) {
+					dialogRef.close(); //总是能关闭弹出框
+				}
+			}]
+		});
+		return false;
+	}
+
 	var username = getParam("username");
 
 	var clientid = getCustomerId();
 
 	var params = {
-		    messageid:"7001",
-		    requestid:generateUUID(),
-			price:price,
-			quant:quant,
-			min:min,
-			max:max,
-			side:side,
-			clientid:clientid,
-			pnsid:pnsid,
-			pnsgid:pnsgid
-		};
-
+		messageid: "7001",
+		requestid: generateUUID(),
+		price: price,
+		quant: quant,
+		min: min,
+		max: max,
+		side: side,
+		clientid: clientid,
+		pnsid: pnsid,
+		pnsgid: pnsgid
+	};
 
 	
 	$.ajax({

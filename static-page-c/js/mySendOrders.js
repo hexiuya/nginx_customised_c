@@ -75,12 +75,17 @@ function createData(){
 			            	}
 			            },
 			            { "data": "status" , "class": "center" , "render": function(data, type, row) {
-				            	if("DEALING" == data){
+				            	if("DEALING" == data && row["side"] == "B"){
 				            		var cancel =  '<a href="javascript:void(0);" onclick="cancelOrder(this)" style="cursor:pointer">cancel</a>' ;
 				            		var pay = '<a href="javascript:void(0);" onclick="openDialog(this)" style="cursor:pointer">pay</a>' ;
 
 				            		return cancel + " / " + pay ;
 				            	}
+
+				            	
+								if("DEALING" == data && row["side"] == "S"){
+									return '<a href="javascript:void(0);" onclick="openPaidConfirmDialog(this)" style="cursor:pointer">chat</a>' ;	
+								}
 
 				            	if("PAID" == data && row["side"] == "S"){//支付确认
 			            	    	return '<a href="javascript:void(0);" onclick="openPaidConfirmDialog(this)" style="cursor:pointer">paid confirm</a>' ;
@@ -316,6 +321,7 @@ var faceName ;
 			      buttons: {
 			        "close": function() {
 			          $( this ).dialog( "close" );
+			          resetTable();
 			        }
 			      }
 			    });
@@ -325,13 +331,16 @@ var faceName ;
 	        	//alert("pay confirm success ...");
 	        	
 	        	var paidParam = {
-                            	clientid:strData.cid,
+	        					messageid:"7005",
+	        					requestid:generateUUID(),
+                            	clientid:getCustomerId(),
                             	oid:strData.oid,
+                            	cid:getCustomerId(),
                             	side:strData.side,
                             	pnsoid:strData.pnsoid,
                             	poid:strData.poid,
-                            	pnsid:strData.pnsid,
-                            	pnsgid:strData.pnsgid,
+                            	pnsid:pnsid_global,
+                            	pnsgid:pnsgid_global,
                             	price:strData.price,
                             	quant:strData.quant
                             };
@@ -346,14 +355,14 @@ var faceName ;
 						var status = data.status;
 
 						if("SUCCESS" == status){
-							var time = new Date(strData.ord.timestamp).format("yyyy-MM-dd hh:mm:ss");
+							//var time = new Date(strData.ord.timestamp).format("yyyy-MM-dd hh:mm:ss");
 							var elementId = "#" + data.oid;
 							var orderId = $(elementId);	
 							orderId.empty();
 							var orderStatus = "<div id='" + data.oid + "'>"
 							orderStatus += "<div>this order has paid confirmed , please wait saler comfrim , thank you :</div>";
                             orderStatus += "<div>order id:" + data.oid + "</div>"
-                            orderStatus += "<div>time:" + time +"</div>";
+                            //orderStatus += "<div>time:" + time +"</div>";
                             orderStatus += "<div>price:" + data.price +"</div>";
                             orderStatus += "<div>quant:" + data.quant +"</div>";
                             //orderStatus += "<div>status:" + data.status +"</div>";
@@ -429,7 +438,7 @@ var faceName ;
 				detail += '<div class="form-group">';
 				detail += 	'<label for="quant" class="col-sm-2 control-label">'+ key +' : </label>';
 				detail += 	'<div class="col-sm-10">';
-				detail +=   	'<input type="text" class="form-control" id="'+key+'" name="'+key+'" value="'+value+'">';
+				detail +=   	'<input disabled="disabled" type="text" class="form-control" id="'+key+'" name="'+key+'" value="'+value+'">';
 				detail += 	'</div>';
 				detail += '</div>';
 				detail += '<br/>';

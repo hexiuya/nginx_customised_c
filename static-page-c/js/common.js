@@ -1,38 +1,47 @@
 var chatDNS = getChatUrl();
 
 $(function(){
-				$("#navigation").load('./commonPage/navigation.html');
-				$("#menu_bar").load('./commonPage/menu_bar.html',function(){
+  $("#navigation").load('./commonPage/navigation.html', function() {
+    //show user name 
+    var username = getUserName();
+    if (username != null) {
+      $("#showUsername").text("[ Hi "+ username +" ]");
+    }
+  });
 
-					var filename=window.location.href;  
-					var start_index = filename.lastIndexOf("/")+1 ; 
-					var end_index = filename.indexOf("?") ;
-          if(end_index == -1){
-                end_index = filename.length ;
-          }
-					console.log("start_index:"+start_index+",end_index:"+end_index);
-					filename=filename.substring(start_index,end_index);
+  $("#menu_bar").load('./commonPage/menu_bar.html', function() {
 
-					$(".nav-list li a").each(function(){
-                       
-						var href = $(this).attr("href");
-						
-						if(href == filename){
-							
-							$(".nav-list li").removeClass("active");//删除全部avtive
-							$(this).parent().addClass("active");//显示当前对象的active
+    var filename = window.location.href;
+    var start_index = filename.lastIndexOf("/") + 1;
+    var end_index = filename.indexOf("?");
+    if (end_index == -1) {
+      end_index = filename.length;
+    }
+    console.log("start_index:" + start_index + ",end_index:" + end_index);
+    filename = filename.substring(start_index, end_index);
 
-							$(".nav-list i").css("background-image","url(../img/glyphicons-halflings.png)");//删除图标的白色效果
-							$(this).children().css("background-image","url(../img/glyphicons-halflings-white.png)");//增加图标的白色效果	
+    $(".nav-list li a").each(function() {
 
-						}
+      var href = $(this).attr("href");
 
-					});
-				});
-				
-        $("#currency_kinds").load('./commonPage/currency_kinds.html');
-				
-        getUserInfo();
+      if (href == filename) {
+
+        $(".nav-list li").removeClass("active"); //删除全部avtive
+        $(this).parent().addClass("active"); //显示当前对象的active
+
+        $(".nav-list i").css("background-image", "url(../img/glyphicons-halflings.png)"); //删除图标的白色效果
+        $(this).children().css("background-image", "url(../img/glyphicons-halflings-white.png)"); //增加图标的白色效果 
+
+      }
+
+    });
+  });
+
+  $("#currency_kinds").load('./commonPage/currency_kinds.html');
+
+  getUserInfo();
+
+        
 });
 
 function getParam(paramName) { 
@@ -304,4 +313,37 @@ function getChatUrl(){
   var port = "82";
   var chatUrl = "http://" + ip + ":" + port ;
   return chatUrl;
+}
+
+function getCurrencyType(row){
+  var pnsid = row.pnsid;
+  var pnsgid = row.pnsgid;
+  if (pnsid == 1 && pnsgid == 8) {
+    return "BTC";
+  }
+  if (pnsid == 2 && pnsgid == 8) {
+    return "ETH";
+  }
+  if (pnsid == 3 && pnsgid == 8) {
+    return "USD";
+  }
+  return "-";
+}
+
+function getBTCUnit(quant){
+  var result = quant / 100000000 ;
+  return result + "BTC";
+}
+
+function errDialog(status){
+  BootstrapDialog.show({
+    closable: true,
+    message: status,
+    buttons: [{
+      label: 'close',
+      action: function(dialogRef) {
+        dialogRef.close(); //总是能关闭弹出框
+      }
+    }]
+  });
 }

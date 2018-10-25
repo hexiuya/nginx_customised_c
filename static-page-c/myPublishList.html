@@ -31,6 +31,8 @@
 				table tbody tr {
 				    height: 100px;
 				}
+
+				a:visited{text-decoration:none;}
 		</style>
 		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	</head>
@@ -40,11 +42,20 @@
 			<div class="row">
 				<!--<div id="menu_bar"></div>-->
 				<div class="span12">
-					<h1>
+					<h5>location : my trade > my publish list</h5>
+					<h2>
 						my publish list 
+						<!--
 						(<a href="javascript:void(0);" onclick="refeshTable('S')">sale</a> | <a  href="javascript:void(0);" onclick="refeshTable('B')">buy</a>)
-					</h1>
-					
+					    -->
+					     : 
+						<select class="form-control" id="side">
+							<option value="S">sale</option>
+							<option value="B">buy</option>
+						</select>
+						
+					</h2>
+
 					<div id="currency_kinds"></div>
 
 					<table id="example" class="table-hover row-border" style="width:100%">

@@ -1,5 +1,7 @@
 var url = "jsonTest/publisher.json?adc=1&cde=1&333";
 
+var pnsid = 1;
+var pnsgid = 8;
 var pnsid_global = 1;
 var pnsgid_global = 8;
 var messageid_global = "701C";
@@ -8,6 +10,11 @@ var side_global = "S";
 
 $(document).ready(function() {
 	createData();
+	$('#side').change(function(){
+		
+		var side = $('#side').val();
+		refeshTable(side);
+	})
 } );
 
 function refeshTable(type){
@@ -18,6 +25,7 @@ function refeshTable(type){
 function resetTable(){
 	pnsid_global = pnsid;
 	pnsgid_global = pnsgid;
+	
 	$('#example').DataTable().ajax.reload();
 }
 
@@ -63,21 +71,30 @@ function createData(){
 			            { "data": "pnsoid" , "class": "center" },
 			            { "data": "poid" , "class": "center" },
 			            { "data": "price" , "class": "center" },
-			            { "data": "quant" , "class": "center" },
+			            { "data": "quant" , "class": "center" , "render": function(data, type, row) {
+				                return  row.quant + "(" + getBTCUnit(row.quant) + ")";
+				            }
+				        },
 			            { "data": "traded" , "class": "center" },
 			            { "data": "margin" , "class": "center" },
-			            { "data": "net" , "class": "center" },
+			            { "data": "net" , "class": "center" , "render": function(data, type, row) {
+			            		return  row.net + "(" + getBTCUnit(row.net) + ")";
+				            }
+				        },
 			            { "data": "can" , "class": "center" },
 			            { "data": "max" , "class": "center" },
 			            { "data": "min" , "class": "center" },
 			            { "data": "status" , "class": "center" },
 			            { "data": "operate" , "class": "center" , "render": function(data, type, row) {
-			            	    var operate = '<a href="javascript:void(0);" onclick="scanOrder(this)" style="cursor:pointer">scan order</a>' ;
+			            	    //var operate = '<a href="javascript:void(0);" onclick="scanOrder(this)" style="cursor:pointer">scan order</a>' ;
+			            	    var operate = "";
 			            	    if(row["net"] > 0){
 
-			            	    	operate += ' | ' ;
+			            	    	//operate += ' | ' ;
 				                	operate += '<a href="javascript:void(0);" onclick="cancelConfirm(this)" style="cursor:pointer">cancel</a>' ;
 				                
+			            	    }else{
+			            	    	operate = "-";
 			            	    }
 			            	    return operate ;
 				            }
@@ -153,20 +170,20 @@ function cancelConfirm(object){
             BootstrapDialog.show({  
 							closable: true, 
 							title: "confirm",
-				            message: "Do you want to continue ?",
+				            message: "Do you want to cancel the published order ?",
 				            buttons: [{
-				            	label: 'cancel',
+				            	label: 'Yes',
 							    action: function(dialogRef){
 							      dialogRef.close();   //总是能关闭弹出框
-							      
+							      cancel(object)
 							    }
 				            },
 				            {
-				            	label: 'confirm',
+				            	label: 'No',
 							    action: function(dialogRef){
 							    	
 							      	dialogRef.close();   //总是能关闭弹出框
-							      	cancel(object)
+							      	
 							      
 							    }
 				            }]

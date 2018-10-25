@@ -1,4 +1,29 @@
+var dlg ;
+
+function enterSumbit(){  
+     var event=arguments.callee.caller.arguments[0]||window.event;//消除浏览器差异  
+     if (event.keyCode == 13){  
+        login();  
+     }  
+}  
+
 function login(){
+	// 关闭弹出框 开始..................
+	$.each(BootstrapDialog.dialogs, function(id, dialogs) {
+		//if(id=='appkeys'){//遍历所有的弹出框，关闭制定的一个
+		//	dialogs.close();
+		//}
+		dialogs.close();
+	});
+
+	if (dlg != null || dlg != undefined){
+		dlg.close();
+	}
+
+	$("#appkeys").css("z-index:-1");
+	$("#appkeys").remove() ;
+	// 关闭弹出框 结束..................
+
 	$("#loading_image").show();
 
 	var username = $("#username").val();
@@ -18,7 +43,8 @@ function login(){
 			$("#loading_image").hide();
 			console.log(data);
 			if(data.status == undefined){
-				BootstrapDialog.show({  
+				dlg = BootstrapDialog.show({ 
+					id: "appkeys", 
 					closable: true, 
 		            message: "busy service , please try again after 5 minutes .",
 		            buttons: [{
@@ -43,18 +69,26 @@ function login(){
                 document.cookie = cookie1 ;
                 */
 
-				window.location.href = "profile.html";
+				window.location.href = "myWallet.html";
 			}else{
-				BootstrapDialog.show({  
-					closable: true, 
-		            message: data.status,
-		            buttons: [{
-		            	label: 'Close the dialog',
-					    action: function(dialogRef){
-					      dialogRef.close();   //总是能关闭弹出框
-					    }
-		            }]
-		    });
+				dlg = BootstrapDialog.show({
+					id: "appkeys",
+					closable: true,
+					message: data.status,
+					onshow: function(dialog) {
+
+						var button = dialog.getButton('button-w'); //通过getButton('id')获得按钮
+					},
+					buttons: [{
+						id: 'button-w',
+						label: 'close',
+						action: function(dialogRef) {
+							dialogRef.close(); //总是能关闭弹出框
+						}
+					}]
+				});
+
+				
 			}
         },
         error:function(){

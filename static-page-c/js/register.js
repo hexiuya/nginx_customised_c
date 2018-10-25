@@ -77,6 +77,20 @@ function register(){
 	var identification = $("#identification").val();
 	var email = $("#email").val();
 
+	if (password != confirmPassword){
+		BootstrapDialog.show({  
+					closable: true, 
+		            message: "password is not equal confirmPassword",
+		            buttons: [{
+		            	label: 'Close the dialog',
+					    action: function(dialogRef){
+					      dialogRef.close();   //总是能关闭弹出框
+					    }
+		            }]
+		        });
+		return false;
+	}
+
 	var params = {
 		messageid:"0x0003",
 	    requestid:generateUUID(),
@@ -104,6 +118,7 @@ function register(){
 		            	label: 'Close the dialog',
 					    action: function(dialogRef){
 					      dialogRef.close();   //总是能关闭弹出框
+					      window.location.href = "login.html";
 					    }
 		            }]
 		        });

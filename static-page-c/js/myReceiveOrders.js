@@ -68,8 +68,14 @@ function createData(){
 			            	    if("PAID" == data && row["side"] == "B"){//支付确认
 			            	    	return  '<a href="javascript:void(0);" onclick="openDialog(this)" style="cursor:pointer">paid confirm</a>' ;
 			            	    }
+	
+
 			            	    if("DEALING" == data && row["side"] == "S"){//支付订单
 			            	    	return '<a href="javascript:void(0);" onclick="openPayDialog(this)" style="cursor:pointer">pay</a>' ;
+			            	    }
+			            	    if("DEALING" == data && row["side"] == "B"){
+			            	    	//我收到的订单，状态为DEALING,并且side=B，证明还没付款
+			            	    	return  '<a href="javascript:void(0);" onclick="openDialog(this)" style="cursor:pointer">chat</a>' ;
 			            	    }
 				                return  '-' ;
 				            }
@@ -138,7 +144,7 @@ var faceName ;
 					var data = table.row(tr).data(); //??取???械?????
 					console.log(data);
 
-					faceName = data.poname;
+					faceName = data.cname;
 
 
 					var strData = JSON.stringify(data);
@@ -226,6 +232,8 @@ var faceName ;
                             //orderStatus += "<div>status:" + data.status +"</div>";
 							orderStatus += "</div>";
 							orderId.append(orderStatus);
+						}else{
+							errDialog(status);
 						}
 			        }
 				});
@@ -246,6 +254,7 @@ var faceName ;
                 var orderGroup = $("#orderGroup");
                 orderGroup.empty();
                 orderGroup.append(orderStatus);
+                
 
                 var chatGroup = $("#chatGroup");
                 chatGroup.empty();
@@ -254,7 +263,7 @@ var faceName ;
 	        	$( "#dialog-confirm" ).dialog({
 			      resizable: true,
 			      height:530,
-			      width:512,
+			      width:600,
 			      modal: false,
 			      buttons: {
 			        "close": function() {
@@ -306,6 +315,8 @@ var faceName ;
                             //orderStatus += "<div>status:" + data.status +"</div>";
 							orderStatus += "</div>";
 							orderId.append(orderStatus);
+						}else{
+							errDialog(status);
 						}
 			        }
 				});
